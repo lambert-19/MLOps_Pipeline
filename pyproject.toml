@@ -1,0 +1,51 @@
+[project]
+name = "modern-mlops"
+version = "0.1.0"
+description = "House price model: Spark data prep, Feast, MLflow, Dagster and a FastAPI service."
+readme = "README.md"
+authors = [
+    { name = "lambert-19", email = "ndawseri@gmail.com" }
+]
+requires-python = ">=3.13"
+# What the API image needs. The pipeline image adds the "pipeline" group.
+dependencies = [
+    "fastapi>=0.162.0",
+    "mlflow>=3.18.0",
+    "numpy>=2.5.4",
+    "pandas>=2.3.3",
+    "prometheus-client>=0.24.1",
+    "psycopg[binary,pool]>=3.3.8",
+    "pydantic>=2.14.3",
+    "scikit-learn>=1.9.1",
+    "uvicorn>=0.30",
+]
+
+[project.scripts]
+mlops-model = "mlops.registry:main"
+
+[dependency-groups]
+pipeline = [
+    "dagster>=1.13.28",
+    "dagster-postgres",
+    "dagster-webserver",
+    "evidently>=0.7.23",
+    "feast>=0.67.0",
+    # `mlflow server` connects to Postgres with psycopg2.
+    "psycopg2-binary",
+    "pyspark>=4.3.0",
+]
+# `uv sync` installs dev by default, so locally you get everything.
+dev = [
+    { include-group = "pipeline" },
+    "httpx",
+    "locust>=2.47.0",
+    "pytest>=9.2.0",
+    "ruff>=0.17.3",
+]
+
+[build-system]
+requires = ["uv_build>=0.12.19,<0.13.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "mlops"
