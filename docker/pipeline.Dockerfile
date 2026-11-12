@@ -2,7 +2,7 @@
 ARG UV_VERSION=0.12.19
 FROM ghcr.io/astral-sh/uv:${UV_VERSION} AS uv
 
-FROM python:3.13-slim-bookworm
+FROM python:3.15-slim-bookworm
 # Java is required by Spark; procps provides `ps`, which Spark's start scripts use.
 RUN apt-get update \
     && apt-get install -y --no-install-recommends openjdk-17-jre-headless procps \
